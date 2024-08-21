@@ -1,0 +1,85 @@
+.sn-wrapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(128, 128, 128, 0.305);
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    overflow: hidden;
+    width: 800px;
+    max-width: 90%;
+}
+
+.sn-notification {
+    display: flex;
+    align-items: center;
+    padding: 30px;
+    color: white;
+}
+
+.sn-image-container {
+    flex-shrink: 0;
+    margin-right: 30px;
+}
+
+.sn-image-container img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.sn-info-container {
+    flex-grow: 1;
+}
+
+.sn-time {
+    font-size: 24px;
+    margin: 0 0 10px;
+    color: #ccc;
+}
+
+.sn-title {
+    font-size: 36px;
+    font-weight: bold;
+    margin: 0 0 10px;
+}
+
+.sn-author {
+    font-size: 30px;
+    margin: 0;
+    color: #ddd;
+}
+
+.sn-pobudka-container {
+    width: 100%;
+    text-align: center;
+    font-size: 48px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #333;
+    padding: 20px;
+    border-bottom: 1px solid #444;
+    margin-bottom: 20px;
+}
+
+.sn-pobudka-text {
+    margin-right: 20px;
+}
+
+.sn-current-time {
+    font-size: 36px;
+    color: #ccc;
+}
+
+.sn-bell-icon {
+    font-size: 48px;
+    color: #ff0;
+    margin-left: 20px;
+}
+
+.sn-notification {
+    margin-top: 20px;
+}
