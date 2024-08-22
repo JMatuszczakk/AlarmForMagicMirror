@@ -79,3 +79,82 @@ def json_data():
     with open('data.json', 'r') as f:
         data = json.load(f)
     return jsonify(data)
+
+@app.route('/serve_image/<filename>')
+def serve_image(filename):
+    return send_from_directory(images_folder, filename)
+
+@app.route('/serve_current_image')
+def serve_current_image():
+    try:
+        with open('current_image.json', 'r') as f:
+            current_image = json.load(f)
+        filename = current_image.get("image", "")
+        if filename:
+            image_path = os.path.join(images_folder, filename)
+            if os.path.exists(image_path):
+                print(f"Serving image: {filename}")
+                return send_from_directory(images_folder, filename)
+            else:
+                print(f"Image file does not exist: {image_path}")
+                return abort(404)  # Return a 404 if the file does not exist
+        else:
+            print("No image filename found in JSON.")
+            return 'No image set', 403
+    except FileNotFoundError:
+        print("current_image.json file not found.")
+        return 'File not found', 404
+@app.route('/set_time', methods=['POST'])
+def set_time():
+    x = request.form
+    json_string = list(x.keys())[0]
+    jsoned = json.loads(json_string)
+    times = jsoned['time']
+    #HH:MM
+
+    with open('time.json', 'w') as f:
+        json.dump({'time': times}, f)
+
+    return 'OK'
+
+@app.route('/form', methods=['GET'])
+def time_form():
+    html = '''
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Set Time</title>
+        <style>
+            body { font-family: Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; }
+            form { display: flex; flex-direction: column; gap: 10px; }
+            input[type="time"], input[type="submit"] { padding: 10px; }
+            input[type="submit"] { background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+            input[type="submit"]:hover { background-color: #45a049; }
+        </style>
+    </head>
+    <body>
+        <h1>Set Time for Adding Songs</h1>
+        <form action="/set_time" method="post">
+            <label for="time">Select Time:</label>
+            <input type="time" id="time" name="time" required>
+            <input type="submit" value="Set Time">
+        </form>
+    </body>
+    </html>
+    '''
+    return render_template_string(html)
+
+@app.route('/clear')
+def clear():
+    with open('data.json', 'w') as f:
+        json.dump({}, f)
+    with open('time.json', 'w') as f:
+        json.dump({}, f)
+    with open('current_image.json', 'w') as f:
+        json.dump({"image": ""}, f)
+    return 'OK'
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5001, host='0.0.0.0')
